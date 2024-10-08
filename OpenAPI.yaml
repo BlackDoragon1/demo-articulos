@@ -1,0 +1,105 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Servicio de Artículos
+  description: API para consultar y actualizar detalles de artículos.
+servers:
+  - url: https://stone-guard-438015-j2.uc.r.appspot.com
+
+paths:
+  /api/articulos/:
+    get:
+      summary: Obtener listado de articulos disponibles
+      responses:
+        '200':
+          description: Lista de artículos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Articulo'
+
+  /articulos/{id}:
+    get:
+      summary: Obtener detalles de un artículo por su ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del artículo (alfanumérico de 10 caracteres)
+          schema:
+            type: string
+            pattern: '^[a-zA-Z0-9]{10}$'
+      responses:
+        '200':
+          description: Detalles del artículo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Articulo'
+        '404':
+          description: Artículo no encontrado
+    put:
+      summary: Actualizar detalles de un artículo por su ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del artículo (alfanumérico de 10 caracteres)
+          schema:
+            type: string
+            pattern: '^[a-zA-Z0-9]{10}$'
+      requestBody:
+        description: Datos para actualizar (solo se permite actualizar nombre y modelo)
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                modelo:
+                  type: string
+                  maxLength: 10
+                  description: Modelo del artículo
+                nombre:
+                  type: string
+                  maxLength: 20
+                  description: Nombre del artículo
+              required:
+                - modelo
+                - nombre
+      responses:
+        '200':
+          description: Artículo actualizado exitosamente
+        '400':
+          description: Datos inválidos
+        '404':
+          description: Artículo no encontrado
+  
+components:
+  schemas:
+    Articulo:
+      type: object
+      properties:
+        idArticulo:
+          type: string
+          description: ID del artículo
+          example: "A123456789"
+        nombre:
+          type: string
+          description: Nombre del artículo
+          example: "Laptop Pro"
+        descripcion:
+          type: string
+          description: Descripción del artículo
+          example: "Laptop Pro Gaming marca X"
+        precio:
+          type: number
+          format: float
+          description: Precio del artículo
+          example: 1200.99
+        modelo:
+          type: string
+          description: Modelo del artículo
+          example: "LTP2024"

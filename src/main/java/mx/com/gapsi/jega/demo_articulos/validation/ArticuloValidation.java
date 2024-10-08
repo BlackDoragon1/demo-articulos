@@ -19,11 +19,11 @@ public class ArticuloValidation implements Validator {
         Articulo articulo = (Articulo) target;
 
         if(articulo.getDescripcion() == null || articulo.getDescripcion().isBlank() || articulo.getDescripcion().length() > 200){
-            errors.rejectValue("descripcion", null, "Campo descripcion invalido");
+            errors.rejectValue("descripcion", null, "es invalido");
         }
 
         if(articulo.getModelo() == null || articulo.getModelo().isBlank() || articulo.getModelo().length() > 10){
-            errors.rejectValue("modelo", null, "Campo modelo invalido");
+            errors.rejectValue("modelo", null, "es invalido");
         }
     }
 
